@@ -1,0 +1,31 @@
+#attach the dataset and install the hp-filter
+attach(HPfilter)
+library(hpfilter)
+
+#decomposition
+y <- data.frame(HPfilter$Unemployment)
+ytrend1 <- hp2(y, lambda = 100)
+ytrend2 <- hp2(y, lambda = 1600)
+ytrend3 <- hp2(y, lambda = 10000)
+ytrend4 <- hp2(y, lambda = 50000)
+ytrend5 <- hp2(y, lambda = 400000)
+
+#cyclical component
+ycycle5 <- y - ytrend5
+ts.plot(ytrend5)
+
+#plots
+plot(y$HPfilter.Unemployment, type="l", col="red", lwd=1.5)
+lines(ytrend1, col="blue")
+lines(ytrend2, col="yellow")
+lines(ytrend3, col="green")
+lines(ytrend4, col="purple")
+lines(ytrend5, col="orange")
+
+#add legend
+legend("topleft", inset = 0.1, title = "Trend with Lambda =",
+       c("100", "1600", "10000", "50000","400000"),
+       fill = c("blue", "yellow", "green", "purple", "orange"),
+       horiz = FALSE, cex = 0.8)
+legend("topright", inset = 0.1, c("Unemployment Rate"),
+       fill = c("red"), horiz = FALSE, cex = 0.8)
